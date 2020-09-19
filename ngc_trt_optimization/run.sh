@@ -3,13 +3,15 @@
 mkdir -p /mnt/bert
 mkdir -p /results
 gcsfuse --only-dir bert \
-        --implicit-dirs dlvm-dataset /mnt/bert
+        --implicit-dirs gtc-bert-demo /mnt/bert
 
-engine_dir=${1:-"/mnt/bert/trt_engine"}
-checkpoint_dir=${2:-"/mnt/bert/checkpoint/bert_tf_v1_1_large_fp16_384_v2"}
-squad_dir=${3:-"/mnt/bert/squad/v1.1"}
-seq_length=${4:-"384"}
-bert_model=${5:-"large"}
+BASE_DIR=/mnt/bert
+ENGINE_DIR=$BASE_DIR/trt_engine
+CHECKPOINT_DIR=$BASE_DIR/checkpoint/bert_tf_v1_1_large_fp16_384_v2
+DATA_DIR=$BASE_DIR/squad/v1.1
 
-python3 builder.py -m $checkpoint_dir/model.ckpt-5474 -o $engine_dir/bert_${bert_model}_${seq_length}_int8.engine -c $checkpoint_dir -v $checkpoint_dir/vocab.txt --squad-json $squad_dir/train-v1.1.json -b 1 -s $seq_length --fp16 --int8 --strict -imh -iln
+seq_length=${1:-"384"}
+bert_model=${2:-"large"}
+
+python3 builder.py -m $CHECKPOINT_DIR/model.ckpt-5474 -o $ENGINE_DIR/bert_${bert_model}_${seq_length}_int8.engine -c $CHECKPOINT_DIR -v $CHECKPOINT_DIR/vocab.txt --squad-json $DATA_DIR/train-v1.1.json -b 1 -s $seq_length --fp16 --int8 --strict -imh -iln
 

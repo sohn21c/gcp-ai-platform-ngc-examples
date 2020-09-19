@@ -1,7 +1,5 @@
 FROM nvcr.io/nvidia/tensorrt:20.08-py3
 
-LABEL maintainer="NVIDIA CORPORATION"
-
 RUN apt-get update && apt-get install -y csh
 RUN apt-get install -y tcsh
 
@@ -32,9 +30,6 @@ RUN cd /tmp && \
     chmod +x cmake-3.14.4-Linux-x86_64.sh && \
     ./cmake-3.14.4-Linux-x86_64.sh --prefix=/usr/local --exclude-subdir --skip-license && \
     rm ./cmake-3.14.4-Linux-x86_64.sh
-
-# Download NGC client
-RUN cd /usr/local/bin && wget https://ngc.nvidia.com/downloads/ngccli_bat_linux.zip && unzip ngccli_bat_linux.zip && chmod u+x ngc && rm ngccli_bat_linux.zip ngc.md5 && echo "no-apikey\nascii\nno-org\nno-team\nno-ace\n" | ngc config set
 
 # Install required Python packages
 RUN python3 -m pip install --upgrade pip

@@ -14,7 +14,7 @@ RUN git clone https://github.com/titipata/pubmed_parser
 RUN pip3 install /workspace/pubmed_parser
 
 WORKDIR /workspace/bert
-COPY bert_for_tensorflow_v6 .
+COPY bert_for_tensorflow .
 
 ENV PYTHONPATH /workspace/bert
 ENV BERT_PREP_WORKING_DIR /workspace/bert/data
@@ -36,5 +36,4 @@ WORKDIR /workspace/bert
 ADD run.sh /workspace/bert
 
 ENTRYPOINT ["bash", "run.sh"]
-
 
