@@ -1,5 +1,8 @@
 ### AI Platform TF BERT Fine-tuning on GPU Guide
 
+* Task summary:
+    Finetune pretrained BERT model for Question-Answering using Google Cloud AI Platform Training  
+
 * Download the squad v1.1 dataset, in this example,
  we download to a GCS location `gs://gtc-bert-demo/bert/squad`, 
  modify run.sh accordingly
@@ -11,10 +14,9 @@ please modify build.sh accordingly to point to your own GCP projects.
 #upload to gs://gtc-bert-demo/bert/checkpoint
 wget --content-disposition https://api.ngc.nvidia.com/v2/models/nvidia/bert_tf_ckpt_large_pretraining_amp_lamb/versions/19.03.0/zip -O bert_tf_ckpt_large_pretraining_amp_lamb_19.03.0.zip
 
-export MODEL_DIR=example_model_$(date +%Y%m%d_%H%M%S)
 export IMAGE_URI=gcr.io/k80-exploration/gtc_demo_bert:latest
 export REGION=us-central1
-export JOB_NAME=bert_job_$(date +%Y%m%d_%H%M%S)
+export JOB_NAME=bert_finetuning_job_$(date +%Y%m%d_%H%M%S)
 
 gcloud ai-platform jobs submit training $JOB_NAME \
     --master-image-uri $IMAGE_URI \
